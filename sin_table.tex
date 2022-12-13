@@ -1,0 +1,34 @@
+\documentclass[a3paper]{ltjsarticle}
+
+\usepackage[top = 10truemm, bottom = 20truemm, left = 15truemm, right = 15truemm]{geometry}
+\usepackage{luacode}
+
+
+\begin{luacode*}
+    function sin(i)
+        j = i * math.pi / 180
+        return tostring(i).." & "..tostring(j).." & "..tostring(math.sin(j)).." & "..tostring(math.cos(j)).." & "..tostring(math.tan(j)).."\\\\"
+    end
+    
+    function make_table()
+        v = ""
+        for i = 0, 65, 1 do
+            v = v..sin(i)
+        end
+        tex.sprint("\\newcommand{\\printSin}{"..v.."}")
+    end
+\end{luacode*}
+\directlua{ make_table() }
+
+
+\begin{document}
+
+\begin{table}[ht]
+  \centering
+  \begin{tabular}{cc|ccc}
+    angle[$^\circ$]&angle[rad]&sin&cos&tan\\ \hline
+  \printSin
+\end{tabular}
+\end{table}
+
+\end{document}

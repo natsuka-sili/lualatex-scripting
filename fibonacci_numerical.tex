@@ -1,0 +1,33 @@
+\documentclass[twocolumn]{ltjsarticle}
+
+\usepackage[top = 10truemm, bottom = 20truemm, left = 15truemm, right = 15truemm]{geometry}
+\usepackage{luacode}
+
+
+\begin{luacode*}
+    function fibonacci()
+        f0 = 0
+        f1 = 1
+        output = "0\\hspace{7mm}1"
+        for i = 1, 93, 1 do
+            f2 = f0 + f1
+            f0 = f1
+            f1 = f2
+            if i < 10 then
+                output = output.."\\\\"..i.."\\hspace{7mm}"..tostring(f2)
+            else
+                output = output.."\\\\"..i.."\\hspace{5mm}"..tostring(f2)
+            end
+        end
+    tex.sprint("\\newcommand{\\printFibonacci}{"..output.."}")
+    end
+\end{luacode*}
+\directlua{ fibonacci() }
+
+
+\begin{document}
+
+\noindent
+\printFibonacci
+
+\end{document}

@@ -1,0 +1,39 @@
+\documentclass{ltjsarticle}
+
+\usepackage[top = 10truemm, bottom = 20truemm, left = 15truemm, right = 15truemm]{geometry}
+\usepackage{luacode}
+\usepackage{tikz, pgfplots}
+
+\pgfplotsset{compat = 1.16}
+
+
+\begin{luacode*}
+    function graph()
+        f0 = 0
+        f1 = 1
+        output = "\\draw (0, 1)"
+        for i  = 1, 11, 1 do
+            f2 = f0 + f1
+            f0 = f1
+            f1 = f2
+            output = output.." -- ("..tostring(i)..", "..tostring(f2)..")"
+        end
+        tex.sprint("\\newcommand{\\makeGraph}{"..output..";}")
+    end
+\end{luacode*}
+\directlua{graph()}
+
+
+\begin{document}
+
+\begin{tikzpicture}[yscale = 0.1]
+  \draw[->] (-0.1, 0) -- (15, 0) node[right] {$x$};
+  \draw[->] (0, -1) -- (0, 150) node[above] {$y$};
+  \draw[thick, domain = 0: 11] plot(\x, {pow(\x, 2)});
+  \draw (-0.2, -4) node[above]{$0$};
+  \draw (11.7, 121) node[above]{$y = x^2$};
+  \makeGraph
+  \draw (12, 144.5) node[above]{fibonacci};
+\end{tikzpicture}
+
+\end{document}
